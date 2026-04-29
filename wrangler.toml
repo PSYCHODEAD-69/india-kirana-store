@@ -1,0 +1,41 @@
+name = "kirana-store-api"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+# ── KV Namespace ──────────────────────────────────────────────
+# After running `wrangler kv namespace create PRODUCTS_KV`
+# paste the returned id below
+[[kv_namespaces]]
+binding = "PRODUCTS_KV"
+id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+# preview_id is used by `wrangler dev` — create a preview namespace too:
+# wrangler kv namespace create PRODUCTS_KV --preview
+preview_id = "REPLACE_WITH_YOUR_KV_PREVIEW_NAMESPACE_ID"
+
+# ── R2 Bucket ─────────────────────────────────────────────────
+# After running `wrangler r2 bucket create kirana-product-images`
+[[r2_buckets]]
+binding = "PRODUCT_IMAGES"
+bucket_name = "kirana-product-images"
+# preview_bucket_name is used by `wrangler dev`
+preview_bucket_name = "kirana-product-images-preview"
+
+# ── Environment Variables (non-secret) ────────────────────────
+# R2_PUBLIC_URL: your R2 bucket's public URL
+# Get this from: Cloudflare Dashboard → R2 → your bucket → Settings → Public Access
+# Format: https://pub-xxxxxxxxxxxx.r2.dev  (NO trailing slash)
+[vars]
+R2_PUBLIC_URL = "REPLACE_WITH_YOUR_R2_PUBLIC_URL"
+
+# ── Secrets (set via CLI — never commit these) ─────────────────
+# Run this command to set the admin secret:
+#   wrangler secret put ADMIN_SECRET
+# Then enter a strong random string when prompted.
+# The same string must be set as VITE_ADMIN_SECRET (or hardcoded)
+# in your admin.js  →  const ADMIN_SECRET = "..."
+
+# ── Routes (optional — only if you use a custom domain) ────────
+# [[routes]]
+# pattern = "api.yourdomain.com/*"
+# zone_name = "yourdomain.com"

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="India Kirana Store - Sasta, Sundar, Tikau. Order groceries, clothes, stationary & more online. Home delivery available!"/>
+<title>India Kirana Store — Sasta, Sundar, Tikau</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="loader-screen" id="loaderScreen">
+  <div class="loader-content">
+    <div class="loader-icon">🛒</div>
+    <div class="loader-brand">India <span>Kirana Store</span></div>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header id="mainHeader">
+  <div class="header-top">
+    <div class="logo">🛒 India <span>Kirana Store</span></div>
+    <div class="search-bar" id="searchBar">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search products..." oninput="searchProducts(this.value)"/>
+    </div>
+    <div class="header-actions">
+      <button class="cart-btn" onclick="toggleCart()">
+        🛒 Cart <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+  <div class="categories" id="catBar">
+    <button class="cat-btn active" onclick="filterCat('all',this)">🏪 All</button>
+    <button class="cat-btn" onclick="filterCat('Grocery',this)">🛒 Grocery</button>
+    <button class="cat-btn" onclick="filterCat('Snacks',this)">🍿 Snacks</button>
+    <button class="cat-btn" onclick="filterCat('Beverages',this)">🥤 Beverages</button>
+    <button class="cat-btn" onclick="filterCat('Personal Care',this)">🧴 Personal Care</button>
+    <button class="cat-btn" onclick="filterCat('Clothes',this)">👕 Clothes</button>
+    <button class="cat-btn" onclick="filterCat('Stationary',this)">✏️ Stationary</button>
+    <button class="cat-btn" onclick="filterCat('Household',this)">🏠 Household</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🇮🇳 #1 Local Store</div>
+    <h1>India Kirana Store</h1>
+    <p class="hero-tagline">Sasta, Sundar, Tikau — Ghar tak!</p>
+    <div class="hero-features">
+      <div class="hero-feat"><span>🚚</span> Free Delivery</div>
+      <div class="hero-feat"><span>💯</span> Genuine Products</div>
+      <div class="hero-feat"><span>⚡</span> Fast Service</div>
+    </div>
+    <button class="hero-cta" onclick="document.getElementById('productsSection').scrollIntoView({behavior:'smooth'})">🛍️ Shop Now</button>
+  </div>
+</section>
+
+<!-- OFFERS BANNER -->
+<div class="offers-strip">
+  <div class="offers-scroll">
+    <span>🔥 Flat 10% OFF on first order!</span>
+    <span>🚚 Free delivery above ₹500</span>
+    <span>💰 Best prices guaranteed</span>
+    <span>📦 Fresh stock daily</span>
+    <span>🔥 Flat 10% OFF on first order!</span>
+    <span>🚚 Free delivery above ₹500</span>
+    <span>💰 Best prices guaranteed</span>
+    <span>📦 Fresh stock daily</span>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="section" id="productsSection">
+  <div class="section-header">
+    <div class="section-title">🛍️ Our Products</div>
+    <div class="product-count" id="productCount">Loading...</div>
+  </div>
+  <div class="products-grid" id="productsGrid">
+    <!-- Skeleton loader -->
+    <div class="empty-state"><div>⏳</div><p>Loading products...</p></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="features-grid">
+    <div class="feature-card"><div class="feature-icon">📞</div><h3>Order by Call</h3><p>Call us anytime to place your order</p></div>
+    <div class="feature-card"><div class="feature-icon">💬</div><h3>WhatsApp Order</h3><p>Send your list on WhatsApp</p></div>
+    <div class="feature-card"><div class="feature-icon">🚚</div><h3>Home Delivery</h3><p>We deliver to your doorstep</p></div>
+    <div class="feature-card"><div class="feature-icon">💯</div><h3>Quality Products</h3><p>Only genuine & fresh items</p></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-brand">🛒 India <span>Kirana Store</span></div>
+    <p class="footer-tagline">Sasta, Sundar, Tikau — Ghar tak!</p>
+    <div class="footer-contact">
+      <a href="tel:6232373920">📞 6232373920</a>
+      <a href="https://wa.me/916232373920" target="_blank">💬 WhatsApp</a>
+      <a href="https://t.me/Shreshth002" target="_blank">✈️ Telegram</a>
+    </div>
+    <div class="footer-copy">© 2024 India Kirana Store | Developer: <span>Shreshth Tiwari</span></div>
+  </div>
+</footer>
+
+<!-- CART OVERLAY -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <span>🛒 Your Cart</span>
+    <button class="close-btn" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="cart-total" id="cartTotal">Total: ₹0</div>
+    <button class="checkout-btn" onclick="openOrderModal()">🚀 Place Order</button>
+  </div>
+</div>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="orderModal">
+  <div class="modal">
+    <div class="modal-icon">📦</div>
+    <h2>Place Your Order</h2>
+    <p>Choose how you want to order:</p>
+    <div class="order-options">
+      <button class="order-opt opt-wa" onclick="orderVia('whatsapp')"><span>💬</span> Order via WhatsApp</button>
+      <button class="order-opt opt-tg" onclick="orderVia('telegram')"><span>✈️</span> Order via Telegram</button>
+      <button class="order-opt opt-call" onclick="orderVia('call')"><span>📞</span> Call to Order</button>
+    </div>
+    <button class="modal-close" onclick="closeOrderModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- BACK TO TOP -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- No Supabase CDN needed — Worker API handles everything -->
+<script src="script.js"></script>
+</body>
+</html>

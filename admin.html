@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Store Admin Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+  body{display:flex;align-items:flex-start;justify-content:center;min-height:100vh;background:var(--bg);margin:0;padding:24px 12px;}
+  .admin-panel{position:relative;display:block;border-radius:24px;box-shadow:var(--shadow-lg);margin:0 auto;width:100%;max-width:520px;background:#fff;}
+  .toast{bottom:20px;}
+
+  /* ── Image mode tabs ── */
+  .img-tabs{display:flex;gap:0;margin-bottom:10px;border:2px solid #e8e8e8;border-radius:12px;overflow:hidden;}
+  .img-tab{flex:1;padding:9px;border:none;background:transparent;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;color:#888;}
+  .img-tab.tab-active{background:var(--primary);color:#fff;}
+
+  /* ── Upload area ── */
+  .img-upload-area{border:2px dashed var(--primary);border-radius:14px;padding:20px;text-align:center;cursor:pointer;background:#fff8f5;transition:all 0.3s;position:relative;}
+  .img-upload-area:hover{background:#fff0e8;}
+  .img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+  .img-upload-text{color:var(--primary);font-weight:600;font-size:14px;pointer-events:none;}
+  .img-upload-sub{color:#aaa;font-size:12px;margin-top:4px;pointer-events:none;}
+  .upload-status{font-size:12px;color:#888;margin-top:6px;min-height:18px;}
+
+  .img-preview{width:100%;height:120px;object-fit:cover;border-radius:12px;margin-top:10px;display:none;}
+  .img-preview.show{display:block;}
+
+  /* ── Admin product list ── */
+  .admin-product-name{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px;}
+
+  /* ── Password fields ── */
+  #pwdScreen{padding:36px;text-align:center;}
+  #adminMain{display:none;}
+
+  /* ── Divider ── */
+  .section-divider{border:none;border-top:2px solid #f0f0f0;margin:20px 0;}
+
+  /* ── Change pwd section ── */
+  .pwd-section-title{font-size:14px;font-weight:700;color:var(--secondary);margin-bottom:12px;}
+</style>
+</head>
+<body>
+
+<div class="admin-panel">
+  <div class="admin-header">
+    <span>⚙️ Admin Dashboard</span>
+    <a href="index.html" style="color:#fff;text-decoration:none;font-size:14px;font-weight:500;background:rgba(255,255,255,0.2);padding:4px 12px;border-radius:12px;">🏪 Store</a>
+  </div>
+
+  <!-- ── PASSWORD SCREEN ── -->
+  <div id="pwdScreen">
+    <h3 style="margin-bottom:18px;color:var(--secondary);font-size:1.2rem;">🔐 Admin Login</h3>
+    <input class="pwd-input" type="password" id="adminPwd" placeholder="Enter password" onkeydown="adminKeydown(event)" autocomplete="current-password"/>
+    <button class="pwd-btn" onclick="doLogin()">Login →</button>
+    <div class="pwd-err" id="pwdErr"></div>
+  </div>
+
+  <!-- ── MAIN PANEL ── -->
+  <div id="adminMain" class="admin-body">
+
+    <!-- Add Product -->
+    <div class="section-divider" style="margin-top:0;"></div>
+    <h3 style="font-size:15px;font-weight:700;color:var(--secondary);margin-bottom:14px;">➕ Add New Product</h3>
+
+    <div class="form-group">
+      <label>Product Name *</label>
+      <input type="text" id="prodName" placeholder="e.g. Tata Salt 1kg"/>
+    </div>
+
+    <div class="form-group">
+      <label>Price (₹) *</label>
+      <input type="number" id="prodPrice" placeholder="e.g. 28" min="1"/>
+    </div>
+
+    <div class="form-group">
+      <label>Category *</label>
+      <select id="prodCategory">
+        <option value="">— Select Category —</option>
+        <option value="Grocery">🛒 Grocery</option>
+        <option value="Snacks">🍿 Snacks</option>
+        <option value="Beverages">🥤 Beverages</option>
+        <option value="Personal Care">🧴 Personal Care</option>
+        <option value="Clothes">👕 Clothes</option>
+        <option value="Stationary">✏️ Stationary</option>
+        <option value="Household">🏠 Household</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Emoji (optional)</label>
+      <input type="text" id="prodEmoji" placeholder="e.g. 🧂" maxlength="4"/>
+    </div>
+
+    <!-- Image: tabs for file upload vs URL -->
+    <div class="form-group">
+      <label>Product Image (optional)</label>
+      <div class="img-tabs">
+        <button class="img-tab tab-active" id="tabFile" onclick="switchImageMode('file')">📁 Upload File</button>
+        <button class="img-tab" id="tabUrl" onclick="switchImageMode('url')">🔗 Paste URL</button>
+      </div>
+
+      <!-- File upload section -->
+      <div id="imgFileSection">
+        <div class="img-upload-area">
+          <input type="file" id="imgFileInput" accept="image/jpeg,image/png,image/webp,image/gif" onchange="handleFileSelect(this)"/>
+          <div class="img-upload-text">📸 Click to choose image</div>
+          <div class="img-upload-sub">JPG, PNG, WEBP, GIF · Max 5MB · Stored in R2</div>
+        </div>
+        <div class="upload-status" id="uploadStatus"></div>
+      </div>
+
+      <!-- URL input section -->
+      <div id="imgUrlSection" style="display:none;">
+        <input type="url" id="imgUrlInput" placeholder="https://example.com/image.jpg" oninput="handleImageUrlInput(this.value)"/>
+        <div style="font-size:11px;color:#aaa;margin-top:4px;">Paste any public image URL — will NOT be stored in R2</div>
+      </div>
+
+      <img class="img-preview" id="imgPreview" alt="Preview" onerror="this.classList.remove('show')"/>
+    </div>
+
+    <button class="add-product-btn" id="addProdBtn" onclick="addProduct()">➕ Add Product</button>
+
+    <hr class="section-divider"/>
+
+    <!-- Product list -->
+    <h3 style="font-size:15px;font-weight:700;color:var(--secondary);margin-bottom:12px;">📦 Manage Products</h3>
+    <div class="admin-products">
+      <div class="admin-product-list" id="adminProductList">
+        <p style="color:#999;text-align:center;padding:20px;">Loading...</p>
+      </div>
+    </div>
+
+    <hr class="section-divider"/>
+
+    <!-- Change password -->
+    <div class="pwd-section-title">🔑 Change Password</div>
+    <div class="form-group">
+      <label>Current Password</label>
+      <input type="password" id="oldPwd" placeholder="Current password"/>
+    </div>
+    <div class="form-group">
+      <label>New Password</label>
+      <input type="password" id="newPwd" placeholder="New password (min 6 chars)"/>
+    </div>
+    <div class="form-group">
+      <label>Confirm New Password</label>
+      <input type="password" id="confPwd" placeholder="Repeat new password"/>
+    </div>
+    <button class="change-pwd-btn" onclick="changePassword()">🔑 Update Password</button>
+
+    <hr class="section-divider"/>
+    <button onclick="adminLogout()" style="width:100%;background:#f0f0f0;border:none;padding:11px;border-radius:12px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer;color:#666;">🚪 Logout</button>
+    <div style="height:16px;"></div>
+  </div><!-- /adminMain -->
+</div><!-- /admin-panel -->
+
+<div class="toast" id="adminToast" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--secondary);color:#fff;padding:12px 24px;border-radius:14px;font-size:14px;z-index:500;opacity:0;transition:all 0.4s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 30px rgba(0,0,0,0.3);font-weight:500;"></div>
+<style>.toast.show,#adminToast.show{opacity:1!important;transform:translateX(-50%) translateY(0)!important;}</style>
+
+<!-- No Supabase needed -->
+<script src="admin.js"></script>
+</body>
+</html>
