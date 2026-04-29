@@ -1,7 +1,7 @@
 // ===== CONFIG =====
 // ⚠️  Replace with your actual values
-const WORKER_URL  = "https://kirana-store-api.YOUR-SUBDOMAIN.workers.dev";
-const ADMIN_SECRET = "REPLACE_WITH_YOUR_ADMIN_SECRET"; // same as wrangler secret ADMIN_SECRET
+const WORKER_URL  = "https://kirana-store-api.devpandey618.workers.dev";
+const ADMIN_SECRET = "c9q5JpAU9tT3L@gNoF;H}TzQF1m9te;G"; // same as wrangler secret ADMIN_SECRET
 
 // ===== STATE =====
 let adminProducts = [];
