@@ -1,6 +1,6 @@
 // ===== CONFIG =====
 // ⚠️  Replace with your actual Worker URL (no trailing slash)
-const WORKER_URL = "https://kirana-store-api.YOUR-SUBDOMAIN.workers.dev";
+const WORKER_URL = "https://kirana-store-api.devpandey618.workers.dev";
 
 const WA_NUMBER  = "916232373920";
 const TG_USERNAME = "Shreshth002";
