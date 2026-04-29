@@ -10,7 +10,7 @@ let isLoggedIn    = false;
 // ===== AUTH =====
 // Simple SHA-256 of entered password compared to stored hash
 // Default password: admin@kirana (change via admin panel)
-const DEFAULT_PWD_HASH = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"; // "password" placeholder — see setup.md
+const DEFAULT_PWD_HASH = "bf61dd46a64f061467ef9b7118c044e77f48671d916285d9be635baa8a37e552"; // "password" placeholder — see setup.md
 
 async function sha256(str) {
   const buf  = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
