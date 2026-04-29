@@ -8,10 +8,10 @@ compatibility_flags = ["nodejs_compat"]
 # paste the returned id below
 [[kv_namespaces]]
 binding = "PRODUCTS_KV"
-id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+id = "cabe96663ce1468b8ef3a73d400bafe8"
 # preview_id is used by `wrangler dev` — create a preview namespace too:
 # wrangler kv namespace create PRODUCTS_KV --preview
-preview_id = "REPLACE_WITH_YOUR_KV_PREVIEW_NAMESPACE_ID"
+preview_id = "cabe96663ce1468b8ef3a73d400bafe8"
 
 # ── R2 Bucket ─────────────────────────────────────────────────
 # After running `wrangler r2 bucket create kirana-product-images`
@@ -26,7 +26,7 @@ preview_bucket_name = "kirana-product-images-preview"
 # Get this from: Cloudflare Dashboard → R2 → your bucket → Settings → Public Access
 # Format: https://pub-xxxxxxxxxxxx.r2.dev  (NO trailing slash)
 [vars]
-R2_PUBLIC_URL = "REPLACE_WITH_YOUR_R2_PUBLIC_URL"
+R2_PUBLIC_URL = "https://pub-4abcda8eecaa468d90c419a4305735c0.r2.dev"
 
 # ── Secrets (set via CLI — never commit these) ─────────────────
 # Run this command to set the admin secret:
